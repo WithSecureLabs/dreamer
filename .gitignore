@@ -1,0 +1,7 @@
+__pycache__
+.vscode/
+dreamer.egg-info/
+.terraform/
+*.retry
+.mypy_cache/
+local_todo.md

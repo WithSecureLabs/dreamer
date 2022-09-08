@@ -1,0 +1,17 @@
+---
+- hosts: instances
+  remote_user: ubuntu
+  become: yes
+  # This is a recommended pattern for Debian/Ubuntu hosts: Skip the "normal" fact gathering phase, instead first
+  # ensuring that a Python interpreter is present 
+  gather_facts: no
+  pre_tasks:
+    - name: Install Python
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      register: result
+      until: result.rc == 0
+      changed_when: result.stdout.strip() != ''
+    - setup:
+  tasks:
+    - name: Ping
+      ping:
